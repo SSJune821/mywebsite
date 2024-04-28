@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="login.css" />
+    <link rel="stylesheet" href="./css/login.css" />
   </head>
   <body>
     <div id="title">My Web Site</div>
@@ -25,6 +25,7 @@
           </div>
           <button type="submit" name="login" id="login_btn">로그인</button>
         </form>
+        <a href="register.php" id="register_btn">회원가입</a>
       </div>
     </div>
 

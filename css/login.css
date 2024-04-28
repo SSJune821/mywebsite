@@ -1,0 +1,122 @@
+body{
+    font-family: sans-serif;
+}
+
+#title{
+    font-size: 50px;
+    color: #09aa5c;
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 20px;
+}
+
+#menu_wrap{
+    margin: 0px;
+}
+
+#login_widow{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+#login_wrap{
+    width: 450px;
+    border: 1px solid gray;
+    border-radius: 6px;
+    padding-bottom: 10px;
+}
+
+#id, #pw{
+    width: 350px;
+    padding: 12px 17px 12px;
+    height: 30px;
+    border-radius: 6px;
+    box-shadow: none;
+    border: 1px solid gray;
+    cursor:pointer;
+    font-size: 14px;
+}
+
+#id{
+    margin-top: 15px;
+}
+
+#id:focus, #pw:focus{
+    outline: none;
+    border: 1px solid #09aa5c;
+}
+
+#login_type1, #login_type2, #login_type3 {
+    display: flex;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: table-cell;
+    width: 138px;
+    vertical-align: middle;
+}
+
+#login_type1{
+    border-right: 1px solid gray;
+    
+}
+
+#login_type2{
+    border-right: 1px solid gray;
+    border-bottom: 1px solid gray;
+    background-color:rgb(234, 234, 234);
+    color: gray;
+}
+
+#login_type3{
+    border-bottom: 1px solid gray;
+    background-color:rgb(234, 234, 234);
+    border-radius: 0 6px 0 0;
+    width: 140px;
+    color: gray;
+}
+
+#session_window{
+    display: flex;
+    margin-left: 50px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+#session_check{
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+#session_label{
+    cursor: pointer;
+}
+
+#login_btn{
+    width: 300px;
+    margin-bottom: 20px;
+    background-color: #09aa5c;
+    padding: 13px 0 13px;
+    border-radius: 6px;
+    border: 1px solid gray;
+    color: aliceblue;
+    font-weight: 1000;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#register_btn{
+    display: block;
+    width: 300px;
+    margin-bottom: 20px;
+    background-color: #09aa5c;
+    padding: 13px 0 13px;
+    border-radius: 6px;
+    border: 1px solid gray;
+    color: aliceblue;
+    font-weight: 1000;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 auto;
+    text-decoration: none;
+}
