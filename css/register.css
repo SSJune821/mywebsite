@@ -1,0 +1,76 @@
+body{
+    font-family: sans-serif;
+}
+
+#register_title{
+    font-size: 20px;
+    color: #09aa5c;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 50px;
+    text-decoration: none;
+}
+
+#register_widow{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+#register_wrap{
+    width: 450px;
+    border-radius: 6px;
+    padding-bottom: 10px;
+    margin: 0px auto;
+}
+
+#id, #pw, #pw_confirm, #email, #name{
+    width: 350px;
+    padding: 0 10px 0 45px;
+    height: 45px;
+    box-shadow: none;
+    border: 1px solid gray;
+    cursor:pointer;
+    font-size: 14px;
+}
+
+#id:focus, #pw:focus, #pw_confirm:focus, #email:focus, #name:focus{
+    outline: none;
+    border: 2px solid #09aa5c;
+}
+
+#id{
+    border-radius: 6px 6px 0 0;
+}
+
+#pw{
+    border-radius: 0px;
+}
+
+#pw_confirm{
+    border-radius: 0px;
+}
+
+#email{
+    border-radius: 0px;
+}
+
+#name{
+    border-radius: 0 0 6px 6px;
+}
+
+#register_btn2{
+    display: block;
+    width: 405px;
+    margin-top: 20px;
+    /* margin-left: 30px; */
+    background-color: #09aa5c;
+    padding: 13px 0 13px;
+    border-radius: 6px;
+    border: 1px solid gray;
+    color: aliceblue;
+    font-weight: 1000;
+    font-size: 20px;
+    cursor: pointer;
+    text-decoration: none;
+}
