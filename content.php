@@ -16,7 +16,8 @@ $id = $_SESSION["id"];
 </head>
 
 <body>
-    <a href="process_logout.php">로그아웃</a>
+    <span><a href="process_logout.php">로그아웃</a></span>
+    <span><a href="mypage.php">마이페이지</a></span>
     <table>
         <tr>
             <th>번호</th>
