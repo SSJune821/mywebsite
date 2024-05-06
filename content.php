@@ -1,9 +1,18 @@
 <?php
+$id = "";
 if (!session_id()) {
     // id가 없을 경우 세션 시작
     session_start();
 }
-$id = $_SESSION["id"];
+//쿠키가 있으면 쿠기 사용
+if (isset($_COOKIE["id"])) {
+    $id = $_COOKIE["id"];
+}
+//아니면 세션 사용
+else if (isset($_SESSION["id"])) {
+    $id = $_SESSION["id"];
+} 
+
 
 ?>
 <!DOCTYPE html>
@@ -16,6 +25,7 @@ $id = $_SESSION["id"];
 </head>
 
 <body>
+    <div>안녕하세요 <?=$id?> 님</div>
     <span><a href="process_logout.php">로그아웃</a></span>
     <span><a href="mypage.php">마이페이지</a></span>
     <table>

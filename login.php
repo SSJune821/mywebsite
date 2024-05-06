@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="./css/login.css" />
+    <link rel="stylesheet" href="./css/login.css?ver=1" />
   </head>
   <body>
     <div id="title">My Web Site</div>
@@ -22,6 +22,18 @@
           <div id="session_window">
             <input type="checkbox" name="session_check" id="session_check" />
             <label for="session_check" id="session_label">로그인 상태 유지</label>
+          </div>
+          <div id="login_type_window">
+            <input type="checkbox" class="login_check_cls" name="login_divide" id="login_devide_check"/>
+            <label for="login_devide_check" id="login_devide_check_label" class="login_check_label_cls">식별/인증 분리</label>
+            <input type="checkbox" class="login_check_cls" name="login_hash" id="login_hash_check"/>
+            <label for="login_hash_check" id="login_hash_check_label" class="login_check_label_cls">해시 사용 여부</label>
+            <input type="checkbox" class="login_check_cls" name="login_cookie" id="login_cookie_check"/>
+            <label for="login_cookie_check" id="login_cookie_check_label" class="login_check_label_cls">쿠키 사용 여부</label>
+            <br>
+            <input type="checkbox" class="login_check_cls" name="login_session" id="login_session_check"/>
+            <label for="login_session_check" id="login_session_check_label" class="login_check_label_cls">세션 사용 여부</label>
+
           </div>
           <button type="submit" name="login" id="login_btn">로그인</button>
         </form>

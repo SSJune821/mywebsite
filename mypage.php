@@ -1,11 +1,19 @@
 <?php
 mysqli_report(MYSQLI_REPORT_OFF);
 
+$id = "";
 if (!session_id()) {
     // id가 없을 경우 세션 시작
     session_start();
 }
-$id = $_SESSION["id"];
+//쿠키가 있으면 쿠기 사용
+if (isset($_COOKIE["id"])) {
+    $id = $_COOKIE["id"];
+}
+//아니면 세션 사용
+else if (isset($_SESSION["id"])) {
+    $id = $_SESSION["id"];
+}
 
 $ini_array = parse_ini_file("/etc/web_conf/.env");
 
@@ -15,7 +23,7 @@ $db_pw = $ini_array["DB_PW"];
 $db_database = $ini_array["DB_DATABASE"];
 
 $conn = mysqli_connect($db_url, $db_user, $db_pw, $db_database);
-$sql = "SELECT * FROM my_user WHERE user='{$id}'";
+$sql = "SELECT email, name FROM my_user WHERE user='{$id}'";
 $result = mysqli_query($conn, $sql);
 
 if ($result == false) {
