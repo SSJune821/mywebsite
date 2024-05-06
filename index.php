@@ -1,20 +1,25 @@
 <?php
 
-
 if (!session_id()) {
     // id가 없을 경우 세션 시작
     session_start();
 }
 
 $id = "";
-if (isset($_SESSION["id"])) {
+
+//쿠키가 있으면 쿠기 사용
+if (isset($_COOKIE["id"])) {
+    $id = $_COOKIE["id"];
+}
+//아니면 세션 사용
+else if (isset($_SESSION["id"])) {
     $id = $_SESSION["id"];
-} else {
+} 
+// 다 없으면 로그인 페이지
+else {
     header("Location: ./login.php");
     exit();
 }
-
-
 
 ?>
 

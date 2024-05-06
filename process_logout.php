@@ -1,10 +1,5 @@
 <?php
-if (!session_id()) {
-    session_start();
-}
+require_once("./lib/login_kind.php");
 
-session_destroy();
-
+init_cookie_session();
 header("location: ./login.php");
-
-?>
