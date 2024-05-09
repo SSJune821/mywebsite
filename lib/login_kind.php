@@ -1,4 +1,11 @@
 <?php
+
+require 'vendor/autoload.php';
+
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use UnexpectedValueException;
+
 function init_db_for_login()
 {
 
@@ -14,7 +21,23 @@ function init_db_for_login()
     return $conn;
 }
 
-function my_login($id, $pw){
+
+
+function init_cookie_session_jwt()
+{
+    //쿠키 있으면 쿠키 삭제
+    setcookie("id", NULL, 0);
+    //세션 있으면 세션 삭제
+    if (!session_id()) {
+        session_start();
+    }
+    session_destroy();
+    //JWT 있으면 삭제
+
+}
+
+function my_login($id, $pw)
+{
     $conn = init_db_for_login();
     $sql = "select * from my_user where user='{$id}' and pw='{$pw}'";
     $result = mysqli_query($conn, $sql);
@@ -36,11 +59,10 @@ function login_combine($id, $pw)
     $row = mysqli_fetch_array($result);
     // die();
 
-    if(!empty($row)){
+    if (!empty($row)) {
         return true;
     }
     return false;
-
 }
 
 // 식별/인증을 분리해서 수행함
@@ -67,7 +89,7 @@ function login_combine_hash($id, $pw)
     $row = mysqli_fetch_array($result);
     // die();
 
-    if(!empty($row)){
+    if (!empty($row)) {
         return true;
     }
     return false;
@@ -88,17 +110,37 @@ function login_divide_hash($id, $pw)
     return false;
 }
 
-
-function init_cookie_session()
+//jwt 로그인 유지 기능
+function remember_me_jwt($id)
 {
-    //쿠키 있으면 쿠키 삭제
-    setcookie("id", NULL, 0);
+    $key = 'MY_SECRET_KEY';
+    $payload = [
+        'iss' => 'my',
+        'aud' => 'my site',
+        'iat' => time(),
+        'exp' => time() + 60 * 60,
+        'id' => $id
+    ];
 
+    $jwt = JWT::encode($payload, $key, 'HS256');
+    return $jwt;
+}
 
-    //세션 있으면 세션 삭제
-    if (!session_id()) {
-        session_start();
+//JWT 유효성 검증
+function validate_jwt($jwt)
+{
+    $key = 'MY_SECRET_KEY';
+    try {
+        $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+        $decoded_array = (array) $decoded;
+        // print_r($decoded_array["id"]);
+        return $decoded_array["id"];
+    } catch (LogicException $e) {
+        print_r("LogicException");
+        // errors having to do with environmental setup or malformed JWT Keys
+    } catch (UnexpectedValueException $e) {
+        print_r("UnexpectedValueException");
+        // errors having to do with JWT signature and claims
     }
-
-    session_destroy();
+    return null;
 }

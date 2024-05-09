@@ -11,7 +11,9 @@ if (isset($_COOKIE["id"])) {
 //아니면 세션 사용
 else if (isset($_SESSION["id"])) {
     $id = $_SESSION["id"];
-} 
+}
+//아니면 JWT 사용
+
 
 
 ?>
