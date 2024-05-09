@@ -3,21 +3,6 @@
 // ini_set("display_errors", 1);
 require_once("./lib/login_kind.php");
 
-if (!isset($_POST["token"])) {
-    header("Location: ./before_index.php");
-} else {
-    if (isset($_SERVER["HTTP_REFERER"]) && strcmp($_SERVER["HTTP_REFERER"], "http://192.168.0.14/week3/before_index.php") == 0) {
-        // print_r($_POST["token"]);
-    }
-}
-
-
-?>
-
-
-
-<?php
-
 if (!session_id()) {
     // id가 없을 경우 세션 시작
     session_start();
@@ -33,19 +18,18 @@ else if (isset($_SESSION["id"])) {
     $id = $_SESSION["id"];
 }
 // 아니면 JWT 사용
-else if (isset($_POST["token"])) {
-    // print_r($_POST["token"]);
-    $id = validate_jwt($_POST["token"]);
+else if (isset($_COOKIE["token"])) {
+    $token = $_COOKIE["token"];
+    $id = validate_jwt($token);
     if(!isset($id)){
         header("Location: ./login.php");
         exit();
     }
-    // echo $id;
 }
 // 다 없으면 로그인 페이지
 else {
-    // header("Location: ./login.php");
-    // exit();
+    header("Location: ./login.php");
+    exit();
 }
 
 ?>

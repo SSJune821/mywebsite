@@ -33,7 +33,7 @@ function init_cookie_session_jwt()
     }
     session_destroy();
     //JWT 있으면 삭제
-
+    setcookie("token", NULL, 0);
 }
 
 function my_login($id, $pw)

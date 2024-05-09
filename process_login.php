@@ -58,7 +58,7 @@ else if(isset($_POST["login_session"])){
 else if(isset($_POST["login_jwt"])){
     if($ret){
         $jwt = remember_me_jwt($id);
-        echo "<script>localStorage.setItem('token', '$jwt');</script>";
+        setcookie("token", $jwt, time() + 3600);
     }
 }
 //그 외는 없음

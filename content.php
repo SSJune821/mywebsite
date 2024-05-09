@@ -13,7 +13,14 @@ else if (isset($_SESSION["id"])) {
     $id = $_SESSION["id"];
 }
 //아니면 JWT 사용
-
+if (isset($_COOKIE["token"])) {
+    $token = $_COOKIE["token"];
+    $id = validate_jwt($token);
+    if(!isset($id)){
+        header("Location: ./login.php");
+        exit();
+    }
+}
 
 
 ?>
