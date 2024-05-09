@@ -33,7 +33,9 @@
             <br>
             <input type="checkbox" class="login_check_cls" name="login_session" id="login_session_check"/>
             <label for="login_session_check" id="login_session_check_label" class="login_check_label_cls">세션 사용 여부</label>
-
+            <input type="checkbox" class="login_check_cls" name="login_jwt" id="login_jwt_check"/>
+            <label for="login_jwt_check" id="login_jwt_check_label" class="login_check_label_cls">JWT 사용 여부</label>
+            
           </div>
           <button type="submit" name="login" id="login_btn">로그인</button>
         </form>

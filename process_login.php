@@ -4,7 +4,7 @@
 require_once("./lib/login_kind.php");
 
 //로그인 전 기존 로그인 데이터 삭제
-init_cookie_session();
+init_cookie_session_jwt();
 
 // echo "login_devide";
 // echo $_POST["login_divide"];
@@ -54,6 +54,13 @@ else if(isset($_POST["login_session"])){
         $_SESSION["id"] = $id;
     }
 }
+//jwt 사용
+else if(isset($_POST["login_jwt"])){
+    if($ret){
+        $jwt = remember_me_jwt($id);
+        echo "<script>localStorage.setItem('token', '$jwt');</script>";
+    }
+}
 //그 외는 없음
 
 
@@ -72,18 +79,3 @@ if ($ret) {
 <?php
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login process</title>
-</head>
-
-<body>
-
-</body>
-
-</html>
