@@ -1,5 +1,9 @@
 <?php
 mysqli_report(MYSQLI_REPORT_OFF);
+// error_reporting(E_ALL);
+// ini_set("display_errors", 1);
+
+require_once("./lib/login_kind.php");
 
 $id = "";
 if (!session_id()) {
@@ -13,6 +17,15 @@ if (isset($_COOKIE["id"])) {
 //아니면 세션 사용
 else if (isset($_SESSION["id"])) {
     $id = $_SESSION["id"];
+}
+//아니면 JWT 사용
+else if (isset($_COOKIE["token"])) {
+    $token = $_COOKIE["token"];
+    $id = validate_jwt($token);
+    if(!isset($id)){
+        header("Location: ./login.php");
+        exit();
+    }
 }
 
 $ini_array = parse_ini_file("/etc/web_conf/.env");
