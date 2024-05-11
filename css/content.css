@@ -1,0 +1,89 @@
+body{
+    font-family: Impact, Charcoal, sans-serif; 
+}
+
+#content_header{
+    height: 50px;
+    border-bottom: 2px solid grey;
+}
+
+
+#hello{
+    position: absolute;
+    right: 300px;
+    padding: 7px;
+}
+
+
+#mypage_btn{
+    position: absolute;
+    right: 190px;
+    background-color: #2db400;
+    padding: 7px;
+}
+
+#mypage_btn > a{
+    text-decoration: none;
+    color: white;
+}
+
+#logout_btn{
+    position: absolute;
+    right: 100px;
+    background-color: #2db400;
+    padding: 7px;
+}
+
+#logout_btn > a{
+    text-decoration: none;
+    color: white;
+}
+
+
+#board_title{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 30px;
+}
+
+#content_body{
+    margin-left: 100px;
+    position: relative;
+}
+
+
+table {
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+    border-collapse: collapse;
+    width: 90%;
+}
+
+th, td{
+    border-top: 1px solid grey;
+    padding: 10px;
+    text-align: center;
+}
+
+th{
+    background-color: gainsboro;
+}
+
+#header2{
+    width: 500px;
+}
+
+td:nth-child(2){
+    cursor: pointer;
+}
+
+
+#register_board_btn{
+    position: absolute;
+    right: 140px;
+    background-color: #2db400;
+    padding: 7px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+}
