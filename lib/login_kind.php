@@ -1,12 +1,14 @@
 <?php
+// error_reporting(E_ALL);
+// ini_set("display_errors", 1);
+require_once $_SERVER['DOCUMENT_ROOT'].'/week4/vendor/autoload.php';
 
-require 'vendor/autoload.php';
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use UnexpectedValueException;
 
-function init_db_for_login()
+function connect_to_db()
 {
 
     $ini_array = parse_ini_file("/etc/web_conf/.env");
@@ -38,7 +40,7 @@ function init_cookie_session_jwt()
 
 function my_login($id, $pw)
 {
-    $conn = init_db_for_login();
+    $conn = connect_to_db();
     $sql = "select * from my_user where user='{$id}' and pw='{$pw}'";
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_array($result);
@@ -53,7 +55,7 @@ function my_login($id, $pw)
 // 식별/인증을 동시에 수행함
 function login_combine($id, $pw)
 {
-    $conn = init_db_for_login();
+    $conn = connect_to_db();
     $sql = "select * from my_user where user='{$id}' and pw='{$pw}'";
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_array($result);
@@ -68,7 +70,7 @@ function login_combine($id, $pw)
 // 식별/인증을 분리해서 수행함
 function login_divide($id, $pw)
 {
-    $conn = init_db_for_login();
+    $conn = connect_to_db();
     $sql = "select * from my_user where user='{$id}'";
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_array($result);
@@ -82,7 +84,7 @@ function login_divide($id, $pw)
 // 식별/인증을 동시에 수행함 (With HASH)
 function login_combine_hash($id, $pw)
 {
-    $conn = init_db_for_login();
+    $conn = connect_to_db();
     $hashedPw = hash('sha256', $pw);
     $sql = "select * from my_user where user='{$id}' and pw='{$hashedPw}'";
     $result = mysqli_query($conn, $sql);
@@ -98,7 +100,7 @@ function login_combine_hash($id, $pw)
 // 식별/인증을 분리해서 수행함
 function login_divide_hash($id, $pw)
 {
-    $conn = init_db_for_login();
+    $conn = connect_to_db();
     $sql = "select * from my_user where user='{$id}'";
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_array($result);

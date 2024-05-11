@@ -16,7 +16,7 @@ else if (isset($_SESSION["id"])) {
 if (isset($_COOKIE["token"])) {
     $token = $_COOKIE["token"];
     $id = validate_jwt($token);
-    if(!isset($id)){
+    if (!isset($id)) {
         header("Location: ./login.php");
         exit();
     }
@@ -30,35 +30,59 @@ if (isset($_COOKIE["token"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/content.css?ver=1">
     <title>content</title>
 </head>
 
 <body>
-    <div>안녕하세요 <?=$id?> 님</div>
-    <span><a href="process_logout.php">로그아웃</a></span>
-    <span><a href="mypage.php">마이페이지</a></span>
-    <table>
-        <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>댓글</th>
-            <th>조회수</th>
-            <th>추천</th>
-            <th>작성일</th>
-        </tr>
-        <tr>
-            <th>1</th>
-            <th>title</th>
-            <th>user</th>
-            <th>0</th>
-            <th>1</th>
-            <th>2</th>
-            <th>2024-04-28 17:03</th>
-        </tr>
+    <div id="content_header">
+        <span id="hello"> <?= $id ?> 님</span>
+        <span id="mypage_btn"><a href="mypage.php">마이페이지</a></span>
+        <span id="logout_btn"><a href="process_logout.php">로그아웃</a></span>
+
+    </div>
+    <div id="content_body">
+        <div id="board_title">게시판</div>
+        <table id="board_table">
+            <tr id="board_header">
+                <th id="header1">번호</th>
+                <th id="header2">제목</th>
+                <th id="header3">작성자</th>
+                <th id="header4">댓글</th>
+                <th id="header5">조회수</th>
+                <th id="header6">추천</th>
+                <th id="header7">작성일</th>
+            </tr>
+            <tr id="board_content">
+                <td>1</td>
+                <td onclick="boardDetail(this, 1)">title</td>
+                <td>user</td>
+                <td>0</td>
+                <td>1</td>
+                <td>2</td>
+                <td>2024-04-28 17:03</td>
+            </tr>
+        </table>
+        <br>
+        <span id="register_board_btn" onclick="registerBoard()">글 작성</span>
+    </div>
 
 
-    </table>
+
+    <script>
+        function registerBoard(){
+            console.log("register_board");
+        }
+
+        function boardDetail(element, boardId){
+            location.href="./board/board_detail.php?board="+boardId;
+            // console.log(element);
+
+        }
+
+
+
+    </script>
 </body>
 
 </html>
