@@ -19,23 +19,23 @@ init_cookie_session_jwt();
 // echo $_POST["login_session"];
 
 
-$id = $_POST["id"];
+$user = $_POST["id"];
 $pw = $_POST["pw"];
 
 if(isset($_POST["login_divide"])){
     if(isset($_POST["login_hash"])){
-        $ret = login_divide_hash($id, $pw);
+        list($ret, $id) = login_divide_hash($user, $pw);
     }
     else{
-        $ret = login_divide($id, $pw);
+        list($ret, $id) = login_divide($user, $pw);
     }
 }
 else{
     if(isset($_POST["login_hash"])){
-        $ret = login_combine_hash($id, $pw);
+        list($ret, $id) = login_combine_hash($user, $pw);
     }
     else{
-        $ret = login_combine($id, $pw);
+        list($ret, $id) = login_combine($user, $pw);
     }
 }
 

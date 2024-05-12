@@ -2,26 +2,11 @@
 // error_reporting(E_ALL);
 // ini_set("display_errors", 1);
 require_once $_SERVER['DOCUMENT_ROOT'].'/week4/vendor/autoload.php';
-
+require_once "common.php";
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use UnexpectedValueException;
-
-function connect_to_db()
-{
-
-    $ini_array = parse_ini_file("/etc/web_conf/.env");
-
-    $db_url = $ini_array["DB_URL"];
-    $db_user = $ini_array["DB_USER"];
-    $db_pw = $ini_array["DB_PW"];
-    $db_database = $ini_array["DB_DATABASE"];
-
-    $conn = mysqli_connect($db_url, $db_user, $db_pw, $db_database);
-
-    return $conn;
-}
 
 
 
@@ -38,78 +23,78 @@ function init_cookie_session_jwt()
     setcookie("token", NULL, 0);
 }
 
-function my_login($id, $pw)
+function my_login($user, $pw)
 {
     $conn = connect_to_db();
-    $sql = "select * from my_user where user='{$id}' and pw='{$pw}'";
+    $sql = "select * from my_user where user='{$user}' and pw='{$pw}'";
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_array($result);
 
-    if (($id != "" && $pw != "") && ($id == $row["user"] && $pw == $row["pw"])) {
-        return true;
+    if (($user != "" && $pw != "") && ($user == $row["user"] && $pw == $row["pw"])) {
+        return array(true, $row["id"]);
     }
-    return false;
+    return array(false, -1);
 }
 
 
 // 식별/인증을 동시에 수행함
-function login_combine($id, $pw)
+function login_combine($user, $pw)
 {
     $conn = connect_to_db();
-    $sql = "select * from my_user where user='{$id}' and pw='{$pw}'";
+    $sql = "select * from my_user where user='{$user}' and pw='{$pw}'";
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_array($result);
     // die();
 
     if (!empty($row)) {
-        return true;
+        return array(true, $row["id"]);
     }
-    return false;
+    return array(false, -1);
 }
 
 // 식별/인증을 분리해서 수행함
-function login_divide($id, $pw)
+function login_divide($user, $pw)
 {
     $conn = connect_to_db();
-    $sql = "select * from my_user where user='{$id}'";
+    $sql = "select * from my_user where user='{$user}'";
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_array($result);
 
     if ($pw != "" && $pw == $row["pw"]) {
-        return true;
+        return array(true, $row["id"]);
     }
-    return false;
+    return array(false, -1);
 }
 
 // 식별/인증을 동시에 수행함 (With HASH)
-function login_combine_hash($id, $pw)
+function login_combine_hash($user, $pw)
 {
     $conn = connect_to_db();
     $hashedPw = hash('sha256', $pw);
-    $sql = "select * from my_user where user='{$id}' and pw='{$hashedPw}'";
+    $sql = "select * from my_user where user='{$user}' and pw='{$hashedPw}'";
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_array($result);
     // die();
 
     if (!empty($row)) {
-        return true;
+        return array(true, $row["id"]);
     }
-    return false;
+    return array(false, -1);
 }
 
 // 식별/인증을 분리해서 수행함
-function login_divide_hash($id, $pw)
+function login_divide_hash($user, $pw)
 {
     $conn = connect_to_db();
-    $sql = "select * from my_user where user='{$id}'";
+    $sql = "select * from my_user where user='{$user}'";
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_array($result);
     $hashedPw = hash('sha256', $pw);
 
     if ($pw != "" && $hashedPw == $row["pw"]) {
-        return true;
+        return array(true, $row["id"]);
     }
-    return false;
+    return array(false, -1);
 }
 
 //jwt 로그인 유지 기능
