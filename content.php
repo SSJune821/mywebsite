@@ -70,7 +70,7 @@ $user = get_user_from_id($id);
                     $("#board_content").append(
                         "<tr><td>" + element["id"] + "</td>" + 
                         "<td class='title'>" +  element["title"]+ "</td>" + 
-                        "<td>" +  element["user_id"]+ "</td>" + 
+                        "<td>" +  element["user"]+ "</td>" + 
                         "<td>" +  0 + "</td>" + 
                         "<td>" +  element["views"]+ "</td>" + 
                         "<td>" +  element["recommendation"]+ "</td>" + 
@@ -88,7 +88,19 @@ $user = get_user_from_id($id);
         //클릭한 게시판 상세화면으로 이동
         $("body").on("click", ".title", function(){
             boardId = $(this).prev().text();
-            location.href = "./board/board_detail.php?board=" + boardId;
+            var newForm = $("<form></form>");
+            newForm.attr("name", "newForm");
+            newForm.attr("method", "post");
+            newForm.attr("action", "./board/board_detail.php?board=" + boardId);
+            
+            var hiddenInput = $("<input>");
+            hiddenInput.attr("type", "hidden");
+            hiddenInput.attr("name", "login_user_id");
+            hiddenInput.attr("value", <?=$id?>);
+            newForm.append(hiddenInput);
+            newForm.appendTo("body");
+            newForm.submit();
+            // location.href = "./board/board_detail.php?board=" + boardId;
         })
 
     </script>
