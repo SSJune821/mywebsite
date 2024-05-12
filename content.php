@@ -12,7 +12,7 @@ $user = get_user_from_id($id);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/content.css?ver=2">
+    <link rel="stylesheet" href="./css/content.css?ver=1">
     <title>content</title>
 </head>
 

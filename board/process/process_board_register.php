@@ -5,12 +5,18 @@ if (!empty($_POST["title"]) && !empty($_POST["content"])) {
     echo "ok";
     $ret = register_board($_POST["title"], $_POST["content"]);
     if($ret){
-        echo "true";
+        // echo "true";
     }
     else{
-        echo "false";
+        // echo "false";
     }
+    
 
 } else {
-    echo "xx";
+    // echo "xx";
 }
+
+
+header("location: ../../index.php");
+
+?>

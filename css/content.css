@@ -1,4 +1,4 @@
-body{
+* {
     font-family: Impact, Charcoal, sans-serif; 
 }
 
@@ -20,6 +20,7 @@ body{
     right: 190px;
     background-color: #2db400;
     padding: 7px;
+    border-radius: 3px;
 }
 
 #mypage_btn > a{
@@ -32,6 +33,7 @@ body{
     right: 100px;
     background-color: #2db400;
     padding: 7px;
+    border-radius: 3px;
 }
 
 #logout_btn > a{
@@ -86,4 +88,5 @@ td:nth-child(2){
     text-decoration: none;
     color: white;
     cursor: pointer;
+    border-radius: 3px;
 }
