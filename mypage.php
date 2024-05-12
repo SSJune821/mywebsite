@@ -1,42 +1,15 @@
 <?php
 mysqli_report(MYSQLI_REPORT_OFF);
-// error_reporting(E_ALL);
-// ini_set("display_errors", 1);
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 
-require_once("./lib/login_kind.php");
+require_once "./lib/common.php";
 
-$id = "";
-if (!session_id()) {
-    // id가 없을 경우 세션 시작
-    session_start();
-}
-//쿠키가 있으면 쿠기 사용
-if (isset($_COOKIE["id"])) {
-    $id = $_COOKIE["id"];
-}
-//아니면 세션 사용
-else if (isset($_SESSION["id"])) {
-    $id = $_SESSION["id"];
-}
-//아니면 JWT 사용
-else if (isset($_COOKIE["token"])) {
-    $token = $_COOKIE["token"];
-    $id = validate_jwt($token);
-    if(!isset($id)){
-        header("Location: ./login.php");
-        exit();
-    }
-}
+$id = get_user_id();
+$user = get_user_from_id($id);
+$conn = connect_to_db();
 
-$ini_array = parse_ini_file("/etc/web_conf/.env");
-
-$db_url = $ini_array["DB_URL"];
-$db_user = $ini_array["DB_USER"];
-$db_pw = $ini_array["DB_PW"];
-$db_database = $ini_array["DB_DATABASE"];
-
-$conn = mysqli_connect($db_url, $db_user, $db_pw, $db_database);
-$sql = "SELECT email, name FROM my_user WHERE user='{$id}'";
+$sql = "SELECT email, name FROM my_user WHERE user='{$user}'";
 $result = mysqli_query($conn, $sql);
 
 if ($result == false) {
@@ -71,7 +44,7 @@ $name = $row["name"];
             <div id="mypage_title">My Page</div>
             </p>
             <div>
-                <input type="text" name="id" placeholder="아이디" id="id" value="<?= $id ?>"><br>
+                <input type="text" name="id" placeholder="아이디" id="id" value="<?= $user ?>"><br>
                 <input type="password" name="pw" placeholder="비밀번호" id="pw" value="xxxxxx"><br>
                 <input type="password" name="pw_confirm" placeholder="비밀번호 확인" id="pw_confirm" value="xxxxxx"><br>
                 <input type="email" name="email" placeholder="이메일 주소" id="email" value="<?= $email ?>"><br>
