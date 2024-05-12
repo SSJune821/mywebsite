@@ -33,7 +33,7 @@ function register_board($title, $content)
     $user_id = get_user_id();
     $sql = "insert into my_board(title, content, user_id) values ('$title', '$content', '$user_id')";
     // print_r($sql);
-    die();
+    // die();
     $result = mysqli_query($conn, $sql);
     if ($result) {
         return true;
