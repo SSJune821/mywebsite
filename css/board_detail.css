@@ -1,0 +1,73 @@
+* {
+    font-family: Impact, Charcoal, sans-serif; 
+}
+
+body{
+    margin-left: 100px;
+}
+
+
+#board_detail_header{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    font-size: 30px;
+    border-bottom: 2px solid grey;
+}
+
+
+#board_detail_title, #board_detail_content{
+    width: 800px;
+    padding: 12px 17px 12px;
+    border-radius: 6px;
+    box-shadow: none;
+    border: 1px solid gray;
+    font-size: 14px;
+}
+
+#board_detail_title:focus, #board_detail_content:focus{
+    outline: none;
+    border: 1px solid #09aa5c;
+}
+
+#board_detail_content_label{
+    float: left;
+    margin-top: 10px;
+    margin-right: 4px;
+}
+
+
+#board_detail_content{
+    margin-top: 10px;
+    resize: none;
+    height: 300px;
+    width: 800px;
+    float: left;
+}
+
+
+#board_update_btn{
+    margin-top: 20px;
+    margin-left: 750px;
+    background-color: #2db400;
+    padding: 7px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 3px;
+}
+
+
+#board_delete_btn{
+    margin-top: 20px;
+    margin-left: 10px;
+    background-color: #2db400;
+    padding: 7px;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 3px;
+}
+

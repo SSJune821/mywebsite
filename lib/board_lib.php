@@ -65,3 +65,18 @@ function update_board($title, $content, $board_id)
         return false;
     }
 }
+
+
+function delete_board($board_id)
+{
+    $conn = connect_to_db();
+    $sql = "delete from my_board where id=$board_id";
+    // print_r($sql);
+    // die();
+    $result = mysqli_query($conn, $sql);
+    if ($result) {
+        return true;
+    } else {
+        return false;
+    }
+}
