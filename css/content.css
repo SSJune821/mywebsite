@@ -90,3 +90,22 @@ td:nth-child(2){
     cursor: pointer;
     border-radius: 3px;
 }
+
+
+
+/* 페이징 번호 */
+.paging{
+    background-color: #2db400;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 5px;
+    padding: 7px;
+    border-radius: 3px;
+}
+
+/* span으로 감싸주면 inline-block을 해도 a 태그들의 높이가 동적으로 변경되지 않는 것 같다 */
+.paging_span{
+    display: inline-block;
+    margin-top: 5px;
+}
