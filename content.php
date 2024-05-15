@@ -12,9 +12,11 @@ $total_list_cnt = get_board_list_cnt();
 
 $kind = "";
 $search = "";
+$url_for_paging = "";
 if (!empty($_GET["kind"]) && !empty($_GET["search"])) {
     $kind = $_GET["kind"];
     $search = $_GET["search"];
+    $url_for_paging = "index.php?kind=$kind&search=$search";
     $total_list_cnt = get_board_list_cnt_by_search($kind, $search);
 }
 // echo $total_list_cnt;
@@ -89,23 +91,23 @@ $start_page_cnt = (floor(($page - 1) / $max_page_cnt) * $max_page_cnt) + 1;
 
         <?php
         if ($page <= 1) { ?>
-            <span class="paging_span"><a href="?page=1" class="paging">이전</a></span>
+            <span class="paging_span"><a href="<?=$url_for_paging?>&page=1" class="paging">이전</a></span>
         <?php } else { ?>
-            <span class="paging_span"><a href="?page=<?= $page - 1; ?>" class="paging">이전</a></span>
+            <span class="paging_span"><a href="<?=$url_for_paging?>&page=<?= $page - 1; ?>" class="paging">이전</a></span>
         <?php } ?>
 
 
         <?php
         $max_page_index = $start_page_cnt + $max_page_cnt > $total_page_cnt ? $total_page_cnt + 1 : $start_page_cnt + $max_page_cnt;
         for ($page_index = $start_page_cnt; $page_index < $max_page_index; $page_index++) { ?>
-            <span class="paging_span"><a href="?page=<?= $page_index; ?>" class="paging"><?= $page_index; ?></a></span>
+            <span class="paging_span"><a href="<?=$url_for_paging?>&page=<?= $page_index; ?>" class="paging"><?= $page_index; ?></a></span>
         <?php } ?>
 
         <?php
         if ($page >= $total_page_cnt) { ?>
-            <span class="paging_span"><a href="?page=<?= $total_page_cnt; ?>" class="paging">다음</a></span>
+            <span class="paging_span"><a href="<?=$url_for_paging?>&page=<?= $total_page_cnt; ?>" class="paging">다음</a></span>
         <?php } else { ?>
-            <span class="paging_span"><a href="?page=<?= $page + 1; ?>" class="paging">다음</a></span>
+            <span class="paging_span"><a href="<?=$url_for_paging?>&page=<?= $page + 1; ?>" class="paging">다음</a></span>
         <?php } ?>
     </div>
 
@@ -130,7 +132,7 @@ $start_page_cnt = (floor(($page - 1) / $max_page_cnt) * $max_page_cnt) + 1;
             url: "./lib/board_lib.php",
             method: "POST",
             data: {
-                type: "searchList",
+                type: "searchListPaging",
                 page: <?= $page ?>,
                 cnt: <?= $cnt ?>,
                 kind: "<?= $kind ?>",
