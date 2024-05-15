@@ -46,6 +46,7 @@
     margin-top: 15px;
     margin-bottom: 15px;
     font-size: 30px;
+    cursor: pointer;
 }
 
 #content_body{
@@ -108,4 +109,35 @@ td:nth-child(2){
 .paging_span{
     display: inline-block;
     margin-top: 5px;
+}
+
+
+
+#space{
+    margin-top: 15px;
+}
+
+#search{
+    width: 350px;
+    padding: 12px 17px 12px;
+    height: 10px;
+    border-radius: 6px;
+    box-shadow: none;
+    border: 1px solid gray;
+    font-size: 14px;
+}
+
+#search:focus{
+    outline: none;
+    border: 1px solid #2db400;
+}
+
+#search_btn{
+    background-color: #2db400;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 5px;
+    padding: 7px;
+    border-radius: 3px;
 }

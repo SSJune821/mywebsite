@@ -1,11 +1,25 @@
 <?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 require_once "./lib/board_lib.php";
 
 $id = get_user_id();
 $user = get_user_from_id($id);
 
+
 // 전체 게시글 갯수
 $total_list_cnt = get_board_list_cnt();
+
+$kind = "";
+$search = "";
+if (!empty($_GET["kind"]) && !empty($_GET["search"])) {
+    $kind = $_GET["kind"];
+    $search = $_GET["search"];
+    $total_list_cnt = get_board_list_cnt_by_search($kind, $search);
+}
+// echo $total_list_cnt;
+// die();
+
 // 페이지 당 게시글 갯수 제한
 $cnt = 5;
 // 전체 페이지 갯수
@@ -14,11 +28,11 @@ $total_page_cnt = ceil($total_list_cnt / $cnt);
 // 현재 페이지
 $page = isset($_GET["page"]) ? $_GET["page"] : 1;
 
-//한 화면에 보여지는 최대 페이지 갯수
-$max_page_cnt= 5;
+//한 화면에 보여지는 최대 페이지 넘버 갯수
+$max_page_cnt = 5;
 
 //최대 페이지 갯수 넘기면 보여지는 시작 페이지 번호 설정
-$start_page_cnt = (floor(($page-1) / $max_page_cnt) * $max_page_cnt) + 1;
+$start_page_cnt = (floor(($page - 1) / $max_page_cnt) * $max_page_cnt) + 1;
 
 
 ?>
@@ -41,6 +55,18 @@ $start_page_cnt = (floor(($page-1) / $max_page_cnt) * $max_page_cnt) + 1;
     </div>
     <div id="content_body">
         <div id="board_title">게시판</div>
+        <form action="" method="GET" id="search_form">
+            <select name="kind">
+                <option value="all">전체</option>
+                <option value="title">제목</option>
+                <option value="content">내용</option>
+                <option value="user">작성자</option>
+                <option value="titlecontent">제목+내용</option>
+            </select>
+            <input type="text" placeholder="검색" id="search" name="search">
+            <span id="search_btn">검색</span>
+        </form>
+        <div id="space"></div>
         <table id="board_table">
             <thead id="board_header">
                 <tr>
@@ -70,16 +96,16 @@ $start_page_cnt = (floor(($page-1) / $max_page_cnt) * $max_page_cnt) + 1;
 
 
         <?php
-        $max_page_index = $start_page_cnt + $max_page_cnt > $total_page_cnt ? $total_page_cnt+1 : $start_page_cnt + $max_page_cnt;
+        $max_page_index = $start_page_cnt + $max_page_cnt > $total_page_cnt ? $total_page_cnt + 1 : $start_page_cnt + $max_page_cnt;
         for ($page_index = $start_page_cnt; $page_index < $max_page_index; $page_index++) { ?>
-            <span class="paging_span"><a href="?page=<?= $page_index; ?>"  class="paging"><?= $page_index; ?></a></span>
+            <span class="paging_span"><a href="?page=<?= $page_index; ?>" class="paging"><?= $page_index; ?></a></span>
         <?php } ?>
 
         <?php
         if ($page >= $total_page_cnt) { ?>
-            <span class="paging_span"><a href="?page=<?= $total_page_cnt; ?>"  class="paging">다음</a></span>
+            <span class="paging_span"><a href="?page=<?= $total_page_cnt; ?>" class="paging">다음</a></span>
         <?php } else { ?>
-            <span class="paging_span"><a href="?page=<?= $page + 1; ?>"  class="paging">다음</a></span>
+            <span class="paging_span"><a href="?page=<?= $page + 1; ?>" class="paging">다음</a></span>
         <?php } ?>
     </div>
 
@@ -91,14 +117,24 @@ $start_page_cnt = (floor(($page-1) / $max_page_cnt) * $max_page_cnt) + 1;
             // console.log("register_board");
         }
 
+        $("#board_title").click(function() {
+            location.href = "./index.php";
+        })
+
+        $("#search_btn").click(function() {
+            $("#search_form").submit();
+        });
+
 
         $.ajax({
             url: "./lib/board_lib.php",
             method: "POST",
             data: {
-                type: "paging",
+                type: "searchList",
                 page: <?= $page ?>,
-                cnt: <?= $cnt ?>
+                cnt: <?= $cnt ?>,
+                kind: "<?= $kind ?>",
+                search: "<?= $search ?>"
             },
             success: function(res) {
                 console.log("success");
