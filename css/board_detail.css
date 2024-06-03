@@ -46,6 +46,18 @@ body{
 }
 
 
+
+#board_detail_file_label{
+    display: block;
+    width: 100px;
+}
+
+#board_detail_file_content{
+    display: block;
+    cursor: pointer;
+}
+
+
 #board_update_btn{
     margin-top: 20px;
     margin-left: 750px;

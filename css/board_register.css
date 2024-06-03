@@ -45,6 +45,16 @@ body{
     float: left;
 }
 
+#board_reg_file_label{
+    display: block;
+    width: 100px;
+}
+
+#board_reg_file_content{
+    /* display: block;
+    margin-left: 100px;
+    width: 500px; */
+}
 
 #board_reg_btn{
     margin-top: 20px;

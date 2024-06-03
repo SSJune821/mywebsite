@@ -1,6 +1,7 @@
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
+
 require_once "./lib/board_lib.php";
 
 $id = get_user_id();
@@ -72,13 +73,13 @@ $start_page_cnt = (floor(($page - 1) / $max_page_cnt) * $max_page_cnt) + 1;
         <table id="board_table">
             <thead id="board_header">
                 <tr>
-                    <th id="header1">번호</th>
-                    <th id="header2">제목</th>
-                    <th id="header3">작성자</th>
-                    <th id="header4">댓글</th>
-                    <th id="header5">조회수</th>
-                    <th id="header6">추천</th>
-                    <th id="header7">작성일</th>
+                    <th id="header1" class="board_header_num" data-column="id">번호</th>
+                    <th id="header2" class="board_header_num" data-column="title">제목</th>
+                    <th id="header3" class="board_header_num" data-column="user">작성자</th>
+                    <th id="header4" class="board_header_num" data-column="comment">댓글</th>
+                    <th id="header5" class="board_header_num" data-column="view">조회수</th>
+                    <th id="header6" class="board_header_num" data-column="rec">추천</th>
+                    <th id="header7" class="board_header_num" data-column="created">작성일</th>
                 </tr>
             </thead>
             <tbody id="board_content">
@@ -90,24 +91,30 @@ $start_page_cnt = (floor(($page - 1) / $max_page_cnt) * $max_page_cnt) + 1;
         <span id="register_board_btn" onclick="registerBoard()">글 작성</span>
 
         <?php
+        // kind와 search 값이 없으면 (검색 기능 사용 안했으면)
+        if (empty($url_for_paging)) {
+            $url_for_paging = $url_for_paging . "?";
+        } else {
+            $url_for_paging = $url_for_paging . "&";
+        }
         if ($page <= 1) { ?>
-            <span class="paging_span"><a href="<?=$url_for_paging?>&page=1" class="paging">이전</a></span>
+            <span class="paging_span"><a href="<?= $url_for_paging ?>page=1" class="paging">이전</a></span>
         <?php } else { ?>
-            <span class="paging_span"><a href="<?=$url_for_paging?>&page=<?= $page - 1; ?>" class="paging">이전</a></span>
+            <span class="paging_span"><a href="<?= $url_for_paging ?>page=<?= $page - 1; ?>" class="paging">이전</a></span>
         <?php } ?>
 
 
         <?php
         $max_page_index = $start_page_cnt + $max_page_cnt > $total_page_cnt ? $total_page_cnt + 1 : $start_page_cnt + $max_page_cnt;
         for ($page_index = $start_page_cnt; $page_index < $max_page_index; $page_index++) { ?>
-            <span class="paging_span"><a href="<?=$url_for_paging?>&page=<?= $page_index; ?>" class="paging"><?= $page_index; ?></a></span>
+            <span class="paging_span"><a href="<?= $url_for_paging ?>page=<?= $page_index; ?>" class="paging"><?= $page_index; ?></a></span>
         <?php } ?>
 
         <?php
         if ($page >= $total_page_cnt) { ?>
-            <span class="paging_span"><a href="<?=$url_for_paging?>&page=<?= $total_page_cnt; ?>" class="paging">다음</a></span>
+            <span class="paging_span"><a href="<?= $url_for_paging ?>page=<?= $total_page_cnt; ?>" class="paging">다음</a></span>
         <?php } else { ?>
-            <span class="paging_span"><a href="<?=$url_for_paging?>&page=<?= $page + 1; ?>" class="paging">다음</a></span>
+            <span class="paging_span"><a href="<?= $url_for_paging ?>page=<?= $page + 1; ?>" class="paging">다음</a></span>
         <?php } ?>
     </div>
 
@@ -178,6 +185,50 @@ $start_page_cnt = (floor(($page - 1) / $max_page_cnt) * $max_page_cnt) + 1;
             newForm.appendTo("body");
             newForm.submit();
             // location.href = "./board/board_detail.php?board=" + boardId;
+        })
+
+
+        // 헤더 클릭 시 정렬 기능
+        var order = "asc";
+        $(".board_header_num").click(function() {
+
+            var column = $(this).data("column");
+            order = (order == "asc") ? "desc" : "asc";
+            // console.log(order);
+            $.ajax({
+                url: "./lib/board_lib.php",
+                method: "POST",
+                data: {
+                    type: "searchListPagingOrder",
+                    page: <?= $page ?>,
+                    cnt: <?= $cnt ?>,
+                    kind: "<?= $kind ?>",
+                    search: "<?= $search ?>",
+                    column: column,
+                    order: order
+                },
+                success: function(res) {
+                    console.log("success");
+                    // console.log(JSON.parse(res));
+                    var res_json = JSON.parse(res);
+                    $("#board_content").empty();
+                    res_json.forEach(element => {
+                        console.log(element);
+                        $("#board_content").append(
+                            "<tr><td>" + element["id"] + "</td>" +
+                            "<td class='title'>" + element["title"] + "</td>" +
+                            "<td>" + element["user"] + "</td>" +
+                            "<td>" + 0 + "</td>" +
+                            "<td>" + element["views"] + "</td>" +
+                            "<td>" + element["recommendation"] + "</td>" +
+                            "<td>" + element["created"] + "</td>");
+                    });
+                },
+                error: function(err) {
+                    console.log("error");
+                    console.log(err);
+                }
+            })
         })
     </script>
 </body>

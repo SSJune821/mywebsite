@@ -28,9 +28,11 @@
             <label for="login_devide_check" id="login_devide_check_label" class="login_check_label_cls">식별/인증 분리</label>
             <input type="checkbox" class="login_check_cls" name="login_hash" id="login_hash_check"/>
             <label for="login_hash_check" id="login_hash_check_label" class="login_check_label_cls">해시 사용 여부</label>
-            <input type="checkbox" class="login_check_cls" name="login_cookie" id="login_cookie_check"/>
-            <label for="login_cookie_check" id="login_cookie_check_label" class="login_check_label_cls">쿠키 사용 여부</label>
+            <input type="checkbox" class="login_check_cls" name="login_my" id="login_my_check" checked=true/>
+            <label for="login_my_check" id="login_my_check_label" class="login_check_label_cls">다른 로직 사용 여부</label>
             <br>
+            <input type="checkbox" class="login_check_cls" name="login_cookie" id="login_cookie_check" checked=true/>
+            <label for="login_cookie_check" id="login_cookie_check_label" class="login_check_label_cls">쿠키 사용 여부</label>
             <input type="checkbox" class="login_check_cls" name="login_session" id="login_session_check"/>
             <label for="login_session_check" id="login_session_check_label" class="login_check_label_cls">세션 사용 여부</label>
             <input type="checkbox" class="login_check_cls" name="login_jwt" id="login_jwt_check"/>
