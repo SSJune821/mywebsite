@@ -42,10 +42,11 @@ function login_combine($user, $pw)
 {
     $conn = connect_to_db();
     $sql = "select * from my_user where user='{$user}' and pw='{$pw}'";
+    echo nl2br($sql);
+    // die();
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_array($result);
-    // die();
-
+    
     if (!empty($row)) {
         return array(true, $row["id"]);
     }
@@ -130,4 +131,122 @@ function validate_jwt($jwt)
         // errors having to do with JWT signature and claims
     }
     return null;
+}
+
+
+
+// 로그인 로직 추가
+// 식별/인증 동시 + 개행
+function  login_combine_newline($user, $pw){
+    $conn = connect_to_db();
+    $sql = "select * from my_user where user='{$user}'\n and pw='{$pw}'";
+    echo nl2br($sql);
+    // die();
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_array($result);
+    // die();
+
+    if (!empty($row)) {
+        return array(true, $row["id"]);
+    }
+    return array(false, -1);
+}
+
+// 식별/인증 동시 + 괄호
+function  login_combine_bracket($user, $pw){
+    $conn = connect_to_db();
+    $sql = "select * from my_user where (user='{$user}' and pw='{$pw}')";
+    echo nl2br($sql);
+    // die();
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_array($result);
+    // die();
+
+    if (!empty($row)) {
+        return array(true, $row["id"]);
+    }
+    return array(false, -1);
+}
+
+
+// 식별/인증 동시 + 괄호2
+function  login_combine_bracket2($user, $pw){
+    $conn = connect_to_db();
+    $sql = "select * from my_user where (user='{$user}') and (pw='{$pw}')";
+    echo nl2br($sql);
+    // die();
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_array($result);
+    // die();
+
+    if (!empty($row)) {
+        return array(true, $row["id"]);
+    }
+    return array(false, -1);
+}
+
+
+// 식별/인증 동시 + limit
+function  login_combine_limit($user, $pw){
+    $conn = connect_to_db();
+    $sql = "select * from my_user where user='{$user}' and pw='{$pw}' limit 0,1";
+    echo nl2br($sql);
+    // die();
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_array($result);
+    // die();
+
+    if (!empty($row)) {
+        return array(true, $row["id"]);
+    }
+    return array(false, -1);
+}
+
+// 식별/인증 동시 + newline + limit
+function  login_combine_newline_limit($user, $pw){
+    $conn = connect_to_db();
+    $sql = "select * from my_user where user='{$user}' and pw='{$pw}'\n limit 0,1";
+    echo nl2br($sql);
+    // die();
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_array($result);
+    // die();
+
+    if (!empty($row)) {
+        return array(true, $row["id"]);
+    }
+    return array(false, -1);
+}
+
+// 식별/인증 동시 + newline2 + limit
+function  login_combine_newline2_1_limit($user, $pw){
+    $conn = connect_to_db();
+    $sql = "select * from my_user where user='{$user}'\n and pw='{$pw}'\n limit 0,1";
+    echo nl2br($sql);
+    // die();
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_array($result);
+    // die();
+
+    if (!empty($row)) {
+        return array(true, $row["id"]);
+    }
+    return array(false, -1);
+}
+
+
+// 식별/인증 동시 + newline2 + limit
+function  login_combine_newline2_2_limit($user, $pw){
+    $conn = connect_to_db();
+    $sql = "select * from my_user where user='{$user}' and\n pw='{$pw}'\n limit 0,1";
+    echo nl2br($sql);
+    // die();
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_array($result);
+    // die();
+
+    if (!empty($row)) {
+        return array(true, $row["id"]);
+    }
+    return array(false, -1);
 }

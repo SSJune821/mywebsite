@@ -39,15 +39,16 @@ function get_user_id()
         }
     }
     // 다 아니면 로그인 화면으로
-    else{
+    else {
         header("Location: ./login.php");
-            exit();
+        exit();
     }
 
     return $id;
 }
 
-function get_user_from_id($id){
+function get_user_from_id($id)
+{
     $conn = connect_to_db();
     $sql = "select user from my_user where id=$id";
     $result = mysqli_query($conn, $sql);
@@ -55,5 +56,3 @@ function get_user_from_id($id){
     // print_r($row);
     return $row["user"];
 }
-
-?>

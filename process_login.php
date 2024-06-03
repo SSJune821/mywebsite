@@ -22,41 +22,46 @@ init_cookie_session_jwt();
 $user = $_POST["id"];
 $pw = $_POST["pw"];
 
-if(isset($_POST["login_divide"])){
-    if(isset($_POST["login_hash"])){
+
+if (isset($_POST["login_my"])) {
+    list($ret, $id) = login_combine_newline($user, $pw);
+}
+
+//식별/인증 분리
+else if (isset($_POST["login_divide"])) {
+    if (isset($_POST["login_hash"])) {
         list($ret, $id) = login_divide_hash($user, $pw);
-    }
-    else{
+    } else {
         list($ret, $id) = login_divide($user, $pw);
     }
 }
-else{
-    if(isset($_POST["login_hash"])){
+//식별/인증 동시
+else {
+    if (isset($_POST["login_hash"])) {
         list($ret, $id) = login_combine_hash($user, $pw);
-    }
-    else{
+    } else {
         list($ret, $id) = login_combine($user, $pw);
     }
 }
 
 //쿠키 사용
-if(isset($_POST["login_cookie"])){
-    if($ret){
+if (isset($_POST["login_cookie"])) {
+    if ($ret) {
         setcookie("id", $id, time() + 3600);
     }
 }
 //세션 사용
-else if(isset($_POST["login_session"])){
-    if($ret){
+else if (isset($_POST["login_session"])) {
+    if ($ret) {
         if (!session_id()) {
             session_start();
-        }        
+        }
         $_SESSION["id"] = $id;
     }
 }
 //jwt 사용
-else if(isset($_POST["login_jwt"])){
-    if($ret){
+else if (isset($_POST["login_jwt"])) {
+    if ($ret) {
         $jwt = remember_me_jwt($id);
         setcookie("token", $jwt, time() + 3600);
     }

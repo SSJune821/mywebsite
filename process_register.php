@@ -12,7 +12,7 @@ if ($id=="" || $pw == "" || $pw_confirm=="" || $email == "" || $name=""){
     exit();
 }
 echo "hello";
-exit();
+// exit();
 
 $ini_array = parse_ini_file("/etc/web_conf/.env");
 
