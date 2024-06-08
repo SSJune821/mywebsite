@@ -139,7 +139,7 @@ $start_page_cnt = (floor(($page - 1) / $max_page_cnt) * $max_page_cnt) + 1;
             url: "./lib/board_lib.php",
             method: "POST",
             data: {
-                type: "searchListPaging",
+                type: "searchListPagingOrder",
                 page: <?= $page ?>,
                 cnt: <?= $cnt ?>,
                 kind: "<?= $kind ?>",

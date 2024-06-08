@@ -52,10 +52,53 @@ body{
     width: 100px;
 }
 
-#board_detail_file_content{
-    display: block;
-    cursor: pointer;
+
+
+#board_detail_filebox{
+    margin-left: 40px;
 }
+
+#board_detail_filebox #file_upload_name {
+    display: inline-block;
+    width: 800px;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    color: gray;
+    border-radius: 6px;
+    border: 1px solid gray;
+    cursor:pointer;
+}
+
+#board_detail_filebox #file_upload_name:focus {
+    outline: none;
+    border: 1px solid #09aa5c;
+    
+}
+
+
+#board_detail_filebox label {
+    display: inline-block;
+    padding: 10px 20px;
+    color: white;
+    vertical-align: middle;
+    background-color: gray;
+    cursor: pointer;
+    margin-left: 10px;
+    
+}
+
+#board_detail_filebox input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+
+
+
 
 
 #board_update_btn{
