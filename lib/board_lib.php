@@ -32,10 +32,10 @@ if (!empty($_POST["type"])) {
         echo get_board_list_by_search_paging($kind, $search, $index, $cnt);
     } else if (
         strcmp($_POST["type"], "searchListPagingOrder") == 0
-        && !empty($_POST["page"]) && !empty($_POST["cnt"])
-        && !empty($_POST["kind"]) && !empty($_POST["search"]
-            && !empty($_POST["column"]) && !empty($_POST["order"]))
-    ) {
+        && !empty($_POST["page"]) && !empty($_POST["cnt"]))
+        // && !empty($_POST["kind"]) && !empty($_POST["search"])
+            // && !empty($_POST["column"]) && !empty($_POST["order"]))
+    {
         $cnt = $_POST["cnt"];
         $index = ($_POST["page"] - 1) * $cnt;
         $kind = $_POST["kind"];
@@ -46,6 +46,7 @@ if (!empty($_POST["type"])) {
     } else {
         //전체 리스트 리턴
         echo get_board_list();
+        
 
         //갯수 제한 리스트 리턴
         // $cnt = $_POST["cnt"] ? $_POST["cnt"] : 5;
@@ -56,7 +57,7 @@ if (!empty($_POST["type"])) {
 
 
 
-$upload_dir = $_SERVER['DOCUMENT_ROOT'] . "/week7/uploads/";
+$upload_dir = $_SERVER['DOCUMENT_ROOT'] . "/week8/uploads/";
 
 //전체 게시글 갯수
 function get_board_list_cnt()
@@ -104,6 +105,7 @@ function get_board_list_cnt_by_search($kind, $search)
     } else if (strcmp($kind, "titlecontent") == 0) {
         $sql = $sql . " where (title like '%$search%' OR content like '%$search%')";
     } else {
+        //pass
     }
 
     // print_r($sql);
@@ -131,6 +133,7 @@ function get_board_list_by_search($kind, $search)
     } else if (strcmp($kind, "titlecontent") == 0) {
         $sql = $sql . " where (title like '%$search%' OR content like '%$search%')";
     } else {
+        //pass
     }
 
     $result = mysqli_query($conn, $sql);
@@ -157,6 +160,7 @@ function get_board_list_by_search_paging($kind, $search, $index, $count)
     } else if (strcmp($kind, "titlecontent") == 0) {
         $sql = $sql . " where (title like '%$search%' OR content like '%$search%')";
     } else {
+        //pass
     }
 
     $sql = $sql . " limit $index, $count";
@@ -185,6 +189,8 @@ function get_board_list_by_search_paging_order($kind, $search, $index, $count, $
         $sql = $sql . " order by recommendation $order";
     } else if (strcmp($column, "created") == 0) {
         $sql = $sql . " order by created $order";
+    } else {
+        //pass
     }
 
 
@@ -199,6 +205,7 @@ function get_board_list_by_search_paging_order($kind, $search, $index, $count, $
     } else if (strcmp($kind, "titlecontent") == 0) {
         $sql = $sql . " where (title like '%$search%' OR content like '%$search%')";
     } else {
+        // pass
     }
 
 
@@ -299,11 +306,59 @@ function get_board_detail_by_id_and_file($board_id, $file_org_name)
 }
 
 
-function update_board($title, $content, $board_id)
+function update_board($title, $content, $board_id, $files)
 {
     $conn = connect_to_db();
     $user_id = get_user_id();
     $sql = "update my_board set title='$title', content='$content' where id=$board_id";
+    // print_r($sql);
+    // die();
+    $result = mysqli_query($conn, $sql);
+    if (!$result) {
+        return false;
+    }
+
+    print_r($files);
+
+    if ($files) {
+        // var_dump($files);
+        global $upload_dir;
+        $file_name = $files["name"];
+        $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+        $file_tmp_name = $files["tmp_name"];
+        $file_size = $files["size"];
+
+        $new_file_name = uniqid() . "." . $file_ext;
+        $upload_path = $upload_dir . $new_file_name;
+
+        // 임시 파일의 경로를 UTF-8로 변환합니다.
+        //출처: https://syudal.tistory.com/entry/PHP-파일-업로드-하기 [수달의 IT 세상:티스토리]
+        $file_tmp_name_utf8 = mb_convert_encoding($file_tmp_name, 'UTF-8', 'auto');
+
+        // echo nl2br("\n");
+        // var_dump($file_name);
+        // echo nl2br("\n");
+        // var_dump($file_ext);
+        // echo nl2br("\n");
+        // var_dump($file_tmp_name);
+        // echo nl2br("\n");
+        // var_dump($new_file_name);
+        // echo nl2br("\n");
+        // var_dump($upload_path);
+        // echo nl2br("\n");
+        // var_dump($file_tmp_name_utf8);
+        // echo nl2br("\n");
+
+        if (move_uploaded_file($file_tmp_name_utf8, $upload_path)) {
+            echo "파일 업로드 성공: " . $new_file_name;
+            $sql = "update my_board_file set file_org_name='$file_name', file_name='$new_file_name', file_path='$upload_dir', file_ext='$file_ext', file_size='$file_size' where board_id='$board_id'";
+            // print_r($sql);
+            // die();
+        } else {
+            echo "파일 업로드 실패.";
+            echo $files["error"];
+        }
+    }
     // print_r($sql);
     // die();
     $result = mysqli_query($conn, $sql);
@@ -318,13 +373,25 @@ function update_board($title, $content, $board_id)
 function delete_board($board_id)
 {
     $conn = connect_to_db();
-    $sql = "delete from my_board where id=$board_id";
+    mysqli_begin_transaction($conn);
+
+    // 외래키 때문에 파일부터 삭제
+    $sql = "delete from my_board_file where board_id=$board_id";
     // print_r($sql);
     // die();
     $result = mysqli_query($conn, $sql);
-    if ($result) {
-        return true;
-    } else {
+    if (!$result) {
+        mysqli_rollback($conn);
         return false;
     }
+
+    // 그 후 본래 게시판 삭제
+    $sql = "delete from my_board where id=$board_id";
+    $result = mysqli_query($conn, $sql);
+    if (!$result) {
+        mysqli_rollback($conn);
+        return false;
+    }
+
+    mysqli_commit($conn);
 }
